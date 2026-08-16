@@ -65,12 +65,20 @@ React 19, TypeScript, Vite, fflate. Фон рисуется на canvas без �
 src/
   App.tsx                    корневой компонент и состояние языка
   i18n.ts                    словари для ru, kk, en
-  index.css                  все стили приложения
+  index.css                  точка входа стилей, только импорты
   components/
     PromptComposer.tsx       поле ввода, кнопки, загрузка и скачивание файла
     LangSwitch.tsx           переключатель языка
     Aurora.tsx, DotField.tsx фоновая графика на canvas
   lib/
     redact.ts                детекторы данных и маскирование текста
+    labels.ts                метки полей по языкам
     docx.ts                  разбор и сборка docx
+  styles/
+    base.css                 переменные, сброс, анимации
+    background.css           слои фона
+    hero.css                 заголовок и подзаголовок
+    lang-switch.css          переключатель языка
+    composer.css             рамка, поле ввода, кнопки текста
+    file-actions.css         кнопки загрузки и скачивания
 ```

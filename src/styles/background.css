@@ -1,0 +1,22 @@
+.stage {
+  position: relative;
+  min-height: 100%;
+  isolation: isolate;
+}
+
+.dot-field,
+.aurora {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dot-field {
+  z-index: 2;
+}
+
+.aurora {
+  z-index: 1;
+}

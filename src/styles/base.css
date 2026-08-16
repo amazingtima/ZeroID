@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "SF Pro Display";
+  src: local("SF Pro Display"), local("SFProDisplay-Regular"), local(".SF NS Display");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: local("SF Pro Display Light"), local("SFProDisplay-Light"), local(".SF NS Display");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: local("SF Pro Text"), local("SFProText-Regular"), local(".SF NS Text");
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --bg: #000000;
+  --text: #f4f4f5;
+  --muted: rgba(255, 255, 255, 0.78);
+  --wave-shift: 90deg;
+  --wave-pos: 0%;
+  --hero-top: 140px;
+  --sans: "SF Pro Display", "SF Pro Text", "SF Pro", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", "Segoe UI", sans-serif;
+  --ui: Inter, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
