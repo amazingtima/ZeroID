@@ -2,6 +2,9 @@ export const isIOS =
   /iP(hone|ad|od)/.test(navigator.userAgent) ||
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
+export const isSafari =
+  isIOS && !/CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser/.test(navigator.userAgent);
+
 export function viewportSize() {
   const view = window.visualViewport;
   return {

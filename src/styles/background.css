@@ -21,7 +21,21 @@
   z-index: 1;
 }
 
-.aurora.is-soft {
-  filter: blur(16px);
-  transform: translateZ(0);
+.aurora-css {
+  background:
+    radial-gradient(90% 55% at 12% 92%, rgba(81, 190, 255, 0.42), transparent 62%),
+    radial-gradient(80% 50% at 78% 96%, rgba(93, 81, 255, 0.5), transparent 64%),
+    radial-gradient(110% 42% at 48% 100%, rgba(81, 190, 255, 0.28), transparent 70%),
+    radial-gradient(70% 38% at 58% 88%, rgba(124, 58, 237, 0.32), transparent 66%);
+  background-repeat: no-repeat;
+  animation: aurora-drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  from {
+    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+  to {
+    background-position: 12% -4%, -10% 2%, 6% 0%, -8% -3%;
+  }
 }
