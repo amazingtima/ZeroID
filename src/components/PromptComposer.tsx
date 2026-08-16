@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Dict } from "../i18n";
 import { maskDocx } from "../lib/docx";
+import { isMobile } from "../lib/viewport";
 import { maskSensitive } from "../lib/redact";
 
 const CARET_H = 24;
@@ -226,7 +227,7 @@ export default function PromptComposer({ t }: { t: Dict }) {
               className="prompt"
               rows={3}
               spellCheck={false}
-              autoFocus
+              autoFocus={!isMobile}
               value={text}
               aria-label={t.hint}
               onChange={(e) => setText(e.target.value)}
