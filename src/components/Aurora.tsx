@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isSafari } from "../lib/viewport";
+import { isSafari, onViewportChange } from "../lib/viewport";
 
 type GradientStop = [offset: number, color: string];
 
@@ -94,12 +94,10 @@ export default function Aurora() {
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = document.documentElement.clientWidth;
-      height = document.documentElement.clientHeight;
+      width = canvas.clientWidth || window.innerWidth;
+      height = canvas.clientHeight || window.innerHeight;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
@@ -165,12 +163,12 @@ export default function Aurora() {
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    const stopResize = onViewportChange(resize);
     frameId = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
+      stopResize();
     };
   }, []);
 

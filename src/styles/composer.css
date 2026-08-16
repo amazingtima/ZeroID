@@ -17,7 +17,8 @@
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
 }
 
-html.is-safari .composer {
+html.is-safari .composer,
+html.is-mobile .composer {
   background: rgba(22, 22, 24, 0.88);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
