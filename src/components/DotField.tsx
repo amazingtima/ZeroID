@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { isIOS, onViewportChange, viewportSize } from "../lib/viewport";
 
 const GAP = 16;
 
@@ -12,9 +13,8 @@ export default function DotField() {
     if (!ctx) return;
 
     const draw = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = document.documentElement.clientWidth;
-      const height = document.documentElement.clientHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, isIOS ? 1.5 : 2);
+      const { width, height } = viewportSize();
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -41,8 +41,7 @@ export default function DotField() {
     };
 
     draw();
-    window.addEventListener("resize", draw);
-    return () => window.removeEventListener("resize", draw);
+    return onViewportChange(draw);
   }, []);
 
   return <canvas ref={canvasRef} className="dot-field" aria-hidden="true" />;

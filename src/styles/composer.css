@@ -17,6 +17,14 @@
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
 }
 
+@supports (-webkit-touch-callout: none) {
+  .composer {
+    background: rgba(22, 22, 24, 0.84);
+    backdrop-filter: blur(10px) saturate(50%);
+    -webkit-backdrop-filter: blur(10px) saturate(50%);
+  }
+}
+
 .composer::before {
   content: "";
   position: absolute;

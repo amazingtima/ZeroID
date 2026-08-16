@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { isIOS, onViewportChange, viewportSize } from "../lib/viewport";
 
 type GradientStop = [offset: number, color: string];
 
@@ -43,7 +44,13 @@ const CYAN = "81, 190, 255";
 const INDIGO = "93, 81, 255";
 const BLACK = "6, 6, 12";
 
-function auroraPaint(ctx: CanvasRenderingContext2D, width: number, t: number, boost = 1) {
+function auroraPaint(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  t: number,
+  boost = 1,
+  soft = false,
+) {
   const span = width * 1.7;
   const shift = Math.sin(t * 0.62) * width * 0.44 - width * 0.3;
   const g = ctx.createLinearGradient(shift, 0, shift + span, 0);
@@ -55,7 +62,7 @@ function auroraPaint(ctx: CanvasRenderingContext2D, width: number, t: number, bo
   g.addColorStop(0.3, `rgba(${CYAN}, ${a(0.82)})`);
   g.addColorStop(0.38, `rgba(${INDIGO}, ${a(0.88)})`);
   g.addColorStop(0.5, `rgba(${INDIGO}, ${a(0.8)})`);
-  g.addColorStop(0.58, `rgba(${BLACK}, ${a(0.45)})`);
+  g.addColorStop(0.58, soft ? `rgba(${INDIGO}, ${a(0.55)})` : `rgba(${BLACK}, ${a(0.45)})`);
   g.addColorStop(0.68, `rgba(${INDIGO}, ${a(0.85)})`);
   g.addColorStop(0.8, `rgba(${CYAN}, ${a(0.8)})`);
   g.addColorStop(0.9, `rgba(${INDIGO}, ${a(0.85)})`);
@@ -75,10 +82,11 @@ export default function Aurora() {
     let height = 0;
     let frameId = 0;
 
+    if (isIOS) canvas.classList.add("is-soft");
+
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = document.documentElement.clientWidth;
-      height = document.documentElement.clientHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, isIOS ? 1.5 : 2);
+      ({ width, height } = viewportSize());
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -107,23 +115,23 @@ export default function Aurora() {
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
 
-      ctx.filter = "blur(30px)";
+      if (!isIOS) ctx.filter = "blur(30px)";
       ctx.globalAlpha = 0.92 * pulse;
-      ctx.fillStyle = auroraPaint(ctx, width, t);
+      ctx.fillStyle = auroraPaint(ctx, width, t, 1, isIOS);
       fillBody(t, 0, 0);
 
-      ctx.filter = "blur(20px)";
+      if (!isIOS) ctx.filter = "blur(20px)";
       ctx.globalAlpha = 0.62;
-      ctx.fillStyle = auroraPaint(ctx, width, t + 1.6, 1.1);
+      ctx.fillStyle = auroraPaint(ctx, width, t + 1.6, 1.1, isIOS);
       fillBody(t, 1.2, 34);
 
-      ctx.filter = "blur(12px)";
+      if (!isIOS) ctx.filter = "blur(12px)";
       ctx.globalAlpha = 0.44;
-      ctx.fillStyle = auroraPaint(ctx, width, t + 3.1, 1.15);
+      ctx.fillStyle = auroraPaint(ctx, width, t + 3.1, 1.15, isIOS);
       fillBody(t, 2.4, 68);
 
       ctx.globalAlpha = 1;
-      ctx.filter = "blur(34px)";
+      if (!isIOS) ctx.filter = "blur(34px)";
 
       for (let i = 0; i < 6; i += 1) {
         const nx = 0.04 + i * 0.19;
@@ -153,12 +161,12 @@ export default function Aurora() {
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    const stopResize = onViewportChange(resize);
     frameId = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
+      stopResize();
     };
   }, []);
 

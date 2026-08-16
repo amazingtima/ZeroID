@@ -20,3 +20,8 @@
 .aurora {
   z-index: 1;
 }
+
+.aurora.is-soft {
+  filter: blur(16px);
+  transform: translateZ(0);
+}
