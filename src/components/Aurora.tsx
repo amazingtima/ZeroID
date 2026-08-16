@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isSafari } from "../lib/viewport";
+import { isMobile, isSafari } from "../lib/viewport";
 
 type GradientStop = [offset: number, color: string];
 
@@ -44,7 +44,13 @@ const CYAN = "81, 190, 255";
 const INDIGO = "93, 81, 255";
 const BLACK = "6, 6, 12";
 
-function auroraPaint(ctx: CanvasRenderingContext2D, width: number, t: number, boost = 1) {
+function auroraPaint(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  t: number,
+  boost = 1,
+  soft = false,
+) {
   const span = width * 1.7;
   const shift = Math.sin(t * 0.62) * width * 0.44 - width * 0.3;
   const g = ctx.createLinearGradient(shift, 0, shift + span, 0);
@@ -56,7 +62,7 @@ function auroraPaint(ctx: CanvasRenderingContext2D, width: number, t: number, bo
   g.addColorStop(0.3, `rgba(${CYAN}, ${a(0.82)})`);
   g.addColorStop(0.38, `rgba(${INDIGO}, ${a(0.88)})`);
   g.addColorStop(0.5, `rgba(${INDIGO}, ${a(0.8)})`);
-  g.addColorStop(0.58, `rgba(${BLACK}, ${a(0.45)})`);
+  g.addColorStop(0.58, soft ? `rgba(${INDIGO}, ${a(0.5)})` : `rgba(${BLACK}, ${a(0.45)})`);
   g.addColorStop(0.68, `rgba(${INDIGO}, ${a(0.85)})`);
   g.addColorStop(0.8, `rgba(${CYAN}, ${a(0.8)})`);
   g.addColorStop(0.9, `rgba(${INDIGO}, ${a(0.85)})`);
@@ -103,9 +109,12 @@ export default function Aurora() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
+    const step = isMobile ? 3 : 6;
+    const blur = isMobile ? [48, 36, 24, 52] : [30, 20, 12, 34];
+
     const fillBody = (t: number, phase: number, lift: number) => {
       ctx.beginPath();
-      for (let x = -20; x <= width + 20; x += 6) {
+      for (let x = -20; x <= width + 20; x += step) {
         const y = surfaceY(x, width, height, t, phase) - lift;
         if (x === -20) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
@@ -124,23 +133,23 @@ export default function Aurora() {
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
 
-      ctx.filter = "blur(30px)";
+      ctx.filter = `blur(${blur[0]}px)`;
       ctx.globalAlpha = 0.92 * pulse;
-      ctx.fillStyle = auroraPaint(ctx, width, t);
+      ctx.fillStyle = auroraPaint(ctx, width, t, 1, isMobile);
       fillBody(t, 0, 0);
 
-      ctx.filter = "blur(20px)";
+      ctx.filter = `blur(${blur[1]}px)`;
       ctx.globalAlpha = 0.62;
-      ctx.fillStyle = auroraPaint(ctx, width, t + 1.6, 1.1);
+      ctx.fillStyle = auroraPaint(ctx, width, t + 1.6, 1.1, isMobile);
       fillBody(t, 1.2, 34);
 
-      ctx.filter = "blur(12px)";
+      ctx.filter = `blur(${blur[2]}px)`;
       ctx.globalAlpha = 0.44;
-      ctx.fillStyle = auroraPaint(ctx, width, t + 3.1, 1.15);
+      ctx.fillStyle = auroraPaint(ctx, width, t + 3.1, 1.15, isMobile);
       fillBody(t, 2.4, 68);
 
       ctx.globalAlpha = 1;
-      ctx.filter = "blur(34px)";
+      ctx.filter = `blur(${blur[3]}px)`;
 
       for (let i = 0; i < 6; i += 1) {
         const nx = 0.04 + i * 0.19;
@@ -152,7 +161,7 @@ export default function Aurora() {
           hue < 0.25
             ? [`rgba(${CYAN}, ${0.5 * shimmer})`, `rgba(${INDIGO}, 0.24)`, `rgba(${BLACK}, 0)`]
             : [`rgba(${INDIGO}, ${0.6 * shimmer})`, `rgba(${INDIGO}, 0.2)`, `rgba(${BLACK}, 0)`];
-        blob(ctx, x, y, width * 0.24, 120, [
+        blob(ctx, x, y, width * (isMobile ? 0.32 : 0.24), isMobile ? 160 : 120, [
           [0, colors[0]],
           [0.5, colors[1]],
           [1, colors[2]],

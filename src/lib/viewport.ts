@@ -5,6 +5,9 @@ export const isIOS =
 export const isSafari =
   isIOS && !/CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser/.test(navigator.userAgent);
 
+export const isMobile =
+  isIOS || window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
+
 export function viewportSize() {
   const view = window.visualViewport;
   return {
