@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isSafari, onViewportChange } from "../lib/viewport";
+import { isMobile, isSafari, onViewportChange } from "../lib/viewport";
 
 type GradientStop = [offset: number, color: string];
 
@@ -74,7 +74,7 @@ export default function Aurora() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (isSafari) {
+    if (isSafari || isMobile) {
       let frameId = 0;
       const tick = (now: number) => {
         driveWave(now);
@@ -172,7 +172,7 @@ export default function Aurora() {
     };
   }, []);
 
-  if (isSafari) {
+  if (isSafari || isMobile) {
     return <div className="aurora aurora-css" aria-hidden="true" />;
   }
 

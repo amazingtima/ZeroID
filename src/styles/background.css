@@ -26,15 +26,23 @@
 }
 
 .aurora-css {
-  top: auto;
-  height: 78dvh;
-  min-height: 420px;
+  overflow: hidden;
+}
+
+.aurora-css::before {
+  content: "";
+  position: absolute;
+  left: -30%;
+  right: -30%;
+  bottom: -28%;
+  top: 18%;
   background:
-    radial-gradient(120% 80% at 10% 88%, rgba(81, 190, 255, 0.46), transparent 70%),
-    radial-gradient(110% 75% at 82% 90%, rgba(93, 81, 255, 0.52), transparent 72%),
-    radial-gradient(140% 70% at 48% 100%, rgba(81, 190, 255, 0.32), transparent 74%),
-    radial-gradient(90% 65% at 60% 78%, rgba(124, 58, 237, 0.36), transparent 70%);
-  background-repeat: no-repeat;
+    radial-gradient(ellipse 70% 80% at 12% 80%, rgba(81, 190, 255, 0.55), transparent 72%),
+    radial-gradient(ellipse 65% 75% at 88% 78%, rgba(93, 81, 255, 0.58), transparent 74%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(81, 190, 255, 0.4), transparent 76%),
+    radial-gradient(ellipse 55% 60% at 62% 70%, rgba(124, 58, 237, 0.42), transparent 72%),
+    radial-gradient(ellipse 50% 55% at 30% 88%, rgba(93, 81, 255, 0.35), transparent 70%);
+  filter: blur(40px);
   animation: aurora-drift 14s ease-in-out infinite alternate;
 }
 
