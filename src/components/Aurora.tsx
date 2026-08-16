@@ -94,11 +94,11 @@ export default function Aurora() {
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, isIOS ? 1.5 : 2);
-      const view = viewportSize();
-      width = canvas.clientWidth || view.width;
-      height = canvas.clientHeight || Math.round(view.height * 0.46);
+      ({ width, height } = viewportSize());
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 

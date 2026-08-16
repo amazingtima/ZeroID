@@ -58,7 +58,7 @@
 
 @media (max-width: 720px) {
   .hero {
-    padding: var(--hero-top) 20px 120px;
+    padding: var(--hero-top) 20px 100px;
   }
 
   .hero-stack {

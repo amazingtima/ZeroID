@@ -19,12 +19,12 @@
 
 .aurora {
   z-index: 1;
-  top: auto;
-  height: 46dvh;
-  min-height: 240px;
 }
 
 .aurora-css {
+  top: auto;
+  height: 46dvh;
+  min-height: 240px;
   background:
     radial-gradient(90% 70% at 12% 100%, rgba(81, 190, 255, 0.42), transparent 68%),
     radial-gradient(80% 65% at 78% 100%, rgba(93, 81, 255, 0.5), transparent 70%),
